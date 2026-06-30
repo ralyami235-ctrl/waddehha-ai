@@ -6,37 +6,45 @@
 
 <body style="margin:0; font-family:Arial; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); color:white;">
 
-<!-- INTRO -->
-<div id="intro" style="display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; padding:20px;">
+<!-- HERO -->
+<div id="hero" style="display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; padding:20px;">
   <div>
-    <h1 style="font-size:44px;">🤖 Waddehha AI</h1>
+    <h1 style="font-size:48px;">🤖 Waddehha AI</h1>
     <p style="opacity:0.85; font-size:18px;">
-      منصة ذكية لتحليل العقود المصرفية باستخدام الذكاء الاصطناعي
+      منصة تحليل العقود المصرفية بالذكاء الاصطناعي
     </p>
     <p style="opacity:0.6; font-size:14px;">
-      تساعد الشركات والأفراد على فهم المخاطر القانونية بسرعة ودقة
+      نظام يساعد على كشف المخاطر القانونية خلال ثوانٍ
     </p>
 
     <button onclick="startApp()"
-      style="margin-top:25px; padding:14px 30px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white; font-size:16px;">
-      🚀 تجربة النظام
+      style="margin-top:25px; padding:14px 32px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white; font-size:16px;">
+      🚀 دخول النظام
     </button>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app" style="display:none; justify-content:center; align-items:center; min-height:100vh; padding:20px;">
+<div id="app" style="display:none; padding:30px;">
 
-  <div style="background:rgba(255,255,255,0.08); padding:30px; border-radius:18px; width:90%; max-width:800px;">
+  <h2 style="text-align:center;">📊 لوحة تحليل العقود</h2>
 
-    <h2 style="text-align:center;">📄 Smart Contract Analyzer</h2>
+  <!-- STATS -->
+  <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px;">
+    <div style="background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:10px;">⚡ Fast AI</div>
+    <div style="background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:10px;">🛡 Risk Scanner</div>
+    <div style="background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:10px;">📄 Contract Review</div>
+  </div>
+
+  <!-- INPUT -->
+  <div style="max-width:800px; margin:20px auto;">
 
     <textarea id="contract" placeholder="اكتب العقد هنا..."
-      style="width:100%; height:180px; margin-top:15px; padding:12px; border-radius:10px; border:none; outline:none;"></textarea>
+      style="width:100%; height:180px; padding:12px; border-radius:10px; border:none; outline:none;"></textarea>
 
     <button onclick="analyze()"
       style="margin-top:15px; width:100%; padding:14px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white;">
-      🔍 تحليل فوري
+      🔍 تحليل العقد الآن
     </button>
 
     <div id="result" style="margin-top:25px;"></div>
@@ -48,8 +56,8 @@
 <script>
 
 function startApp(){
-  document.getElementById("intro").style.display = "none";
-  document.getElementById("app").style.display = "flex";
+  document.getElementById("hero").style.display = "none";
+  document.getElementById("app").style.display = "block";
 }
 
 function analyze(){
@@ -62,48 +70,49 @@ function analyze(){
     return;
   }
 
-  resultBox.innerHTML = "⏳ جاري تحليل العقد باستخدام Waddehha AI...";
+  resultBox.innerHTML = "⏳ يتم تحليل العقد باستخدام Waddehha AI...";
 
   setTimeout(() => {
 
     let risk = 0;
     let flags = [];
 
-    if(text.includes("غرامة")){ risk += 30; flags.push("Penalties detected"); }
-    if(text.includes("تأخير")){ risk += 25; flags.push("Delay clauses"); }
-    if(text.includes("إلغاء")){ risk += 20; flags.push("Termination terms"); }
+    if(text.includes("غرامة")){ risk += 30; flags.push("Penalties"); }
+    if(text.includes("تأخير")){ risk += 25; flags.push("Delays"); }
+    if(text.includes("إلغاء")){ risk += 20; flags.push("Termination"); }
     if(text.includes("التزام")){ risk += 10; }
 
     let level = "";
-    let badge = "";
+    let color = "";
+    let score = risk + "%";
 
     if(risk <= 30){
       level = "🟢 Low Risk";
-      badge = "SAFE";
+      color = "green";
     } else if(risk <= 60){
       level = "🟡 Medium Risk";
-      badge = "REVIEW";
+      color = "orange";
     } else {
       level = "🔴 High Risk";
-      badge = "CRITICAL";
+      color = "red";
     }
 
     resultBox.innerHTML = `
-      <div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:12px; border-left:6px solid #00c6ff;">
+      <div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:12px; border-left:6px solid ${color};">
 
-        <h3>📊 AI Analysis Report</h3>
+        <h3>📑 AI Legal Report</h3>
 
+        <p><b>Risk Score:</b> ${score}</p>
         <p><b>Risk Level:</b> ${level}</p>
-        <p><b>AI Badge:</b> <span style="background:#00c6ff; padding:4px 10px; border-radius:8px;">${badge}</span></p>
 
-        <p><b>Detected Flags:</b> ${flags.length ? flags.join(" | ") : "No major risks detected"}</p>
+        <p><b>Detected Issues:</b> ${flags.length ? flags.join(" • ") : "No critical issues found"}</p>
 
-        <p><b>Recommendation:</b> Legal review recommended before signing.</p>
+        <p><b>Recommendation:</b> Review contract with legal advisor before signing.</p>
 
         <hr style="opacity:0.3;">
 
         <p style="font-size:12px; opacity:0.7;">
-          Waddehha AI • Hackathon Edition • Powered by Smart Logic
+          Waddehha AI • Championship Edition • Smart Contract Intelligence
         </p>
 
       </div>
