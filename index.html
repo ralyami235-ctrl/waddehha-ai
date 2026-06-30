@@ -109,12 +109,18 @@ function downloadPDF(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  let text = document.getElementById("result").innerText;
+  let reportElement = document.getElementById("result");
+
+  // نحول النص بشكل منظم
+  let text = reportElement.innerText
+    .replace(/\n\s*\n/g, "\n")
+    .trim();
 
   doc.setFontSize(16);
   doc.text("Waddehha AI - Contract Report", 10, 20);
 
-  doc.setFontSize(11);
+  doc.setFontSize(12);
+
   let lines = doc.splitTextToSize(text, 180);
   doc.text(lines, 10, 40);
 
