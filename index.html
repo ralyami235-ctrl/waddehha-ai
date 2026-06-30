@@ -6,89 +6,99 @@
 
 <body style="margin:0; font-family:Arial; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); color:white;">
 
-  <div style="display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px;">
+<!-- Landing Page -->
+<div id="home" style="display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; padding:20px;">
+  
+  <div>
+    <h1 style="font-size:42px;">🤖 Waddehha AI</h1>
+    <p style="opacity:0.8; font-size:18px;">نظام تحليل العقود الذكي للشركات والبنوك</p>
+    <button onclick="startApp()" 
+      style="margin-top:20px; padding:14px 30px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white; font-size:16px;">
+      🚀 بدء التحليل
+    </button>
+  </div>
 
-    <div style="background:rgba(255,255,255,0.08); padding:30px; border-radius:18px; width:90%; max-width:750px;">
+</div>
 
-      <h1 style="text-align:center;">🤖 Waddehha AI</h1>
-      <p style="text-align:center; opacity:0.8;">
-        نظام ذكي لتحليل العقود المصرفية باستخدام الذكاء الاصطناعي
-      </p>
+<!-- App Page -->
+<div id="app" style="display:none; justify-content:center; align-items:center; min-height:100vh; padding:20px;">
 
-      <textarea id="contract" placeholder="اكتب أو الصق العقد هنا..."
-        style="width:100%; height:180px; margin-top:15px; padding:12px; border-radius:10px; border:none; outline:none;"></textarea>
+  <div style="background:rgba(255,255,255,0.08); padding:30px; border-radius:18px; width:90%; max-width:750px;">
 
-      <button onclick="analyze()"
-        style="margin-top:15px; width:100%; padding:14px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white; font-size:16px;">
-        🔍 تحليل العقد
-      </button>
+    <h2 style="text-align:center;">📄 لوحة تحليل العقود</h2>
 
-      <div id="result" style="margin-top:25px;"></div>
+    <textarea id="contract" placeholder="اكتب العقد هنا..."
+      style="width:100%; height:180px; margin-top:15px; padding:12px; border-radius:10px; border:none; outline:none;"></textarea>
 
-    </div>
+    <button onclick="analyze()"
+      style="margin-top:15px; width:100%; padding:14px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white;">
+      🔍 تحليل العقد
+    </button>
+
+    <div id="result" style="margin-top:25px;"></div>
 
   </div>
 
+</div>
+
 <script>
+
+function startApp(){
+  document.getElementById("home").style.display = "none";
+  document.getElementById("app").style.display = "flex";
+}
+
 function analyze(){
 
   let text = document.getElementById("contract").value;
   let resultBox = document.getElementById("result");
 
   if(text.length < 20){
-    resultBox.innerHTML = "⚠️ يرجى إدخال عقد أطول للتحليل";
+    resultBox.innerHTML = "⚠️ الرجاء إدخال عقد أطول للتحليل";
     return;
   }
 
-  resultBox.innerHTML = "⏳ جاري تحليل العقد...";
+  resultBox.innerHTML = "⏳ يتم الآن تحليل العقد...";
 
   setTimeout(() => {
 
-    let riskScore = 0;
+    let risk = 0;
     let notes = [];
 
-    if(text.includes("غرامة")){
-      riskScore += 30;
-      notes.push("وجود غرامة مالية");
-    }
-
-    if(text.includes("تأخير")){
-      riskScore += 25;
-      notes.push("بنود تتعلق بالتأخير");
-    }
-
-    if(text.includes("إلغاء")){
-      riskScore += 20;
-      notes.push("شروط إلغاء العقد");
-    }
-
-    if(text.includes("التزام")){
-      riskScore += 15;
-    }
+    if(text.includes("غرامة")){ risk += 30; notes.push("غرامة مالية"); }
+    if(text.includes("تأخير")){ risk += 25; notes.push("تأخير في التنفيذ"); }
+    if(text.includes("إلغاء")){ risk += 20; notes.push("شروط إلغاء"); }
+    if(text.includes("التزام")){ risk += 10; }
 
     let level = "";
-    if(riskScore <= 30){
+    let color = "";
+
+    if(risk <= 30){
       level = "🟢 منخفض المخاطر";
-    } else if(riskScore <= 60){
+      color = "green";
+    } else if(risk <= 60){
       level = "🟡 متوسط المخاطر";
+      color = "orange";
     } else {
       level = "🔴 عالي المخاطر";
+      color = "red";
     }
 
     resultBox.innerHTML = `
-      <div style="background:rgba(255,255,255,0.1); padding:18px; border-radius:12px;">
+      <div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:12px; border-left:5px solid ${color};">
         <h3>📊 تقرير التحليل</h3>
         <p><b>مستوى المخاطر:</b> ${level}</p>
-        <p><b>الملاحظات:</b> ${notes.length ? notes.join(" - ") : "لا توجد مشاكل واضحة"}</p>
-        <p><b>التوصية:</b> مراجعة العقد من مختص قانوني قبل التوقيع</p>
+        <p><b>النقاط المكتشفة:</b> ${notes.length ? notes.join(" - ") : "لا يوجد مشاكل واضحة"}</p>
+        <p><b>التوصية:</b> مراجعة قانونية قبل التوقيع</p>
         <hr style="opacity:0.3;">
-        <p style="font-size:12px; opacity:0.7;">Waddehha AI - Smart Contract Analysis System</p>
+        <p style="font-size:12px; opacity:0.7;">Powered by Waddehha AI • Enterprise Demo</p>
       </div>
     `;
 
   }, 1200);
 
 }
+
 </script>
 
 </body>
