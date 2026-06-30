@@ -6,24 +6,22 @@
 
 <body style="margin:0; font-family:Arial; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); color:white;">
 
-  <div style="display:flex; justify-content:center; align-items:center; height:100vh;">
+  <div style="display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px;">
 
-    <div style="background:rgba(255,255,255,0.1); padding:30px; border-radius:15px; width:80%; max-width:600px; text-align:center;">
+    <div style="background:rgba(255,255,255,0.08); padding:30px; border-radius:18px; width:90%; max-width:700px; backdrop-filter: blur(10px);">
 
-      <h1>🤖 Waddehha AI</h1>
-      <p>تحليل العقود المصرفية بالذكاء الاصطناعي</p>
+      <h1 style="text-align:center;">🤖 Waddehha AI</h1>
+      <p style="text-align:center; opacity:0.8;">نظام تحليل العقود المصرفية الذكي</p>
 
-      <textarea id="contract" placeholder="اكتب العقد هنا..."
-        style="width:100%; height:150px; margin-top:15px; padding:10px; border-radius:10px;"></textarea>
-
-      <br><br>
+      <textarea id="contract" placeholder="اكتب أو الصق العقد هنا..."
+        style="width:100%; height:180px; margin-top:15px; padding:12px; border-radius:10px; border:none; outline:none;"></textarea>
 
       <button onclick="analyze()"
-        style="padding:12px 25px; border:none; border-radius:8px; cursor:pointer; background:#00c6ff; color:white;">
-        تحليل العقد
+        style="margin-top:15px; width:100%; padding:14px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white; font-size:16px;">
+        🔍 تحليل العقد
       </button>
 
-      <div id="result" style="margin-top:20px; font-size:16px;"></div>
+      <div id="result" style="margin-top:25px;"></div>
 
     </div>
 
@@ -34,23 +32,51 @@ function analyze(){
   let text = document.getElementById("contract").value;
 
   if(text.length < 20){
-    document.getElementById("result").innerHTML = "⚠️ الرجاء إدخال عقد أطول للتحليل";
+    document.getElementById("result").innerHTML =
+      "⚠️ يرجى إدخال عقد أطول ليتم التحليل بشكل دقيق";
     return;
   }
 
-  let risk = 0;
+  let riskScore = 0;
+  let notes = [];
 
-  if(text.includes("غرامة")) risk += 1;
-  if(text.includes("تأخير")) risk += 1;
-  if(text.includes("إلغاء")) risk += 1;
-
-  if(risk == 0){
-    document.getElementById("result").innerHTML = "✅ العقد يبدو منخفض المخاطر";
-  } else if(risk == 1){
-    document.getElementById("result").innerHTML = "⚠️ العقد يحتوي بعض البنود التي تحتاج مراجعة";
-  } else {
-    document.getElementById("result").innerHTML = "🚨 العقد عالي المخاطر ويحتاج مراجعة قانونية";
+  if(text.includes("غرامة")){
+    riskScore += 30;
+    notes.push("وجود غرامة مالية");
   }
+
+  if(text.includes("تأخير")){
+    riskScore += 25;
+    notes.push("بنود تتعلق بالتأخير");
+  }
+
+  if(text.includes("إلغاء")){
+    riskScore += 20;
+    notes.push("شروط إلغاء العقد");
+  }
+
+  if(text.includes("التزام")){
+    riskScore += 15;
+  }
+
+  let level = "";
+  if(riskScore <= 30){
+    level = "🟢 منخفض المخاطر";
+  } else if(riskScore <= 60){
+    level = "🟡 متوسط المخاطر";
+  } else {
+    level = "🔴 عالي المخاطر";
+  }
+
+  document.getElementById("result").innerHTML =
+    `
+    <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:12px;">
+      <h3>📊 نتيجة التحليل</h3>
+      <p><b>مستوى المخاطر:</b> ${level}</p>
+      <p><b>نقاط ملاحظة:</b> ${notes.length ? notes.join(" - ") : "لا توجد مشاكل واضحة"}</p>
+      <p><b>توصية:</b> يرجى مراجعة العقد من مختص قانوني قبل التوقيع</p>
+    </div>
+    `;
 }
 </script>
 
