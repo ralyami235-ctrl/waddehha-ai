@@ -7,64 +7,36 @@
 <body style="margin:0; font-family:Arial; background:#0b1220; color:white;">
 
 <!-- TOP BAR -->
-<div style="padding:15px 25px; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05);">
-  <div style="font-weight:bold;">🤖 Waddehha AI</div>
-  <div style="font-size:12px; opacity:0.7;">Enterprise AI Contract Intelligence</div>
+<div style="padding:12px 20px; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05);">
+  <div>🤖 Waddehha AI</div>
+  <div style="font-size:12px; opacity:0.7;">Certified AI Demo • Hackathon Edition</div>
 </div>
 
 <!-- HERO -->
 <div id="hero" style="display:flex; justify-content:center; align-items:center; height:90vh; text-align:center; padding:20px;">
-
   <div>
-    <h1 style="font-size:52px;">Waddehha AI</h1>
-    <p style="opacity:0.8;">Next-Generation Contract Intelligence System</p>
-    <p style="opacity:0.5; font-size:14px;">
-      تحليل العقود المالية باستخدام الذكاء الاصطناعي لدعم القرارات القانونية
-    </p>
+    <h1 style="font-size:48px;">Waddehha AI</h1>
+    <p style="opacity:0.8;">Enterprise Contract Intelligence System</p>
 
     <button onclick="startApp()"
-      style="margin-top:25px; padding:14px 35px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white; font-size:16px;">
-      🚀 Launch System
+      style="margin-top:20px; padding:14px 30px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white;">
+      🚀 Start Analysis
     </button>
   </div>
-
 </div>
 
 <!-- APP -->
 <div id="app" style="display:none; padding:30px;">
 
-  <!-- NAV -->
-  <div style="display:flex; justify-content:center; gap:15px; margin-bottom:20px;">
-    <button onclick="showTab('analyze')" style="padding:10px 15px; border:none; border-radius:8px; cursor:pointer;">📄 Analyzer</button>
-    <button onclick="showTab('about')" style="padding:10px 15px; border:none; border-radius:8px; cursor:pointer;">ℹ️ About</button>
-  </div>
+  <textarea id="contract" placeholder="Paste contract here..."
+    style="width:100%; height:180px; padding:12px; border-radius:10px; border:none;"></textarea>
 
-  <!-- ANALYZER -->
-  <div id="analyzeTab">
+  <button onclick="analyze()"
+    style="margin-top:15px; width:100%; padding:14px; border:none; border-radius:10px; background:#00c6ff; color:white;">
+    🔍 Analyze Contract
+  </button>
 
-    <textarea id="contract" placeholder="Paste contract here..."
-      style="width:100%; height:180px; padding:12px; border-radius:10px; border:none;"></textarea>
-
-    <button onclick="analyze()"
-      style="margin-top:15px; width:100%; padding:14px; border:none; border-radius:10px; cursor:pointer; background:#00c6ff; color:white;">
-      🔍 Run AI Analysis
-    </button>
-
-    <div id="result" style="margin-top:25px;"></div>
-
-  </div>
-
-  <!-- ABOUT -->
-  <div id="aboutTab" style="display:none; text-align:center; opacity:0.8;">
-    <h2>About Waddehha AI</h2>
-    <p>
-      A smart AI system designed to analyze financial contracts, detect risks,
-      and assist users in making safer legal decisions.
-    </p>
-    <p style="font-size:12px; opacity:0.6;">
-      Built for hackathon demonstration purposes.
-    </p>
-  </div>
+  <div id="result" style="margin-top:25px;"></div>
 
 </div>
 
@@ -75,9 +47,13 @@ function startApp(){
   document.getElementById("app").style.display = "block";
 }
 
-function showTab(tab){
-  document.getElementById("analyzeTab").style.display = tab === 'analyze' ? 'block' : 'none';
-  document.getElementById("aboutTab").style.display = tab === 'about' ? 'block' : 'none';
+function downloadReport(){
+  let content = document.getElementById("result").innerText;
+  let blob = new Blob([content], {type: "text/plain"});
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "Waddehha_AI_Report.txt";
+  link.click();
 }
 
 function analyze(){
@@ -90,7 +66,7 @@ function analyze(){
     return;
   }
 
-  resultBox.innerHTML = "⏳ AI is analyzing the contract...";
+  resultBox.innerHTML = "⏳ AI generating report...";
 
   setTimeout(() => {
 
@@ -106,33 +82,35 @@ function analyze(){
     let color = "";
 
     if(risk <= 30){
-      level = "Low Risk 🟢";
+      level = "🟢 LOW RISK";
       color = "#2ecc71";
     } else if(risk <= 60){
-      level = "Medium Risk 🟡";
+      level = "🟡 MEDIUM RISK";
       color = "#f1c40f";
     } else {
-      level = "High Risk 🔴";
+      level = "🔴 HIGH RISK";
       color = "#e74c3c";
     }
 
     resultBox.innerHTML = `
       <div style="background:rgba(255,255,255,0.08); padding:20px; border-radius:12px; border-left:6px solid ${color};">
 
-        <h3>📊 AI Legal Report</h3>
+        <h3>📊 AI BUSINESS REPORT</h3>
 
         <p><b>Risk Score:</b> ${risk}%</p>
         <p><b>Status:</b> ${level}</p>
+        <p><b>Detected Clauses:</b> ${flags.length ? flags.join(" • ") : "None"}</p>
 
-        <p><b>Detected Clauses:</b> ${flags.length ? flags.join(" • ") : "No major risks detected"}</p>
-
-        <p><b>Recommendation:</b> Legal review is recommended before signing.</p>
+        <p><b>Recommendation:</b> Legal review recommended before signing.</p>
 
         <hr style="opacity:0.3;">
 
-        <p style="font-size:12px; opacity:0.6;">
-          Waddehha AI • Legendary Hackathon Edition
-        </p>
+        <p style="font-size:12px; opacity:0.7;">Certified AI System • Waddehha AI</p>
+
+        <button onclick="downloadReport()"
+          style="margin-top:10px; padding:10px 15px; border:none; border-radius:8px; cursor:pointer; background:white; color:black;">
+          📥 Download Report
+        </button>
 
       </div>
     `;
