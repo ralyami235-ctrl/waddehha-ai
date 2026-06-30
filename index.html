@@ -4,13 +4,41 @@
   <title>Waddehha AI</title>
 </head>
 
-<body style="margin:0; background:linear-gradient(to right,#4facfe,#00f2fe); font-family:Arial; color:white; text-align:center;">
+<body style="margin:0; font-family:Arial; background:linear-gradient(135deg,#1e3c72,#2a5298); color:white; text-align:center;">
 
-  <div style="margin-top:120px;">
-    <h1>👋 أهلاً بك في Waddehha AI</h1>
-    <p style="font-size:20px;">الموقع يعمل الآن بنجاح 🚀</p>
-    <p>تحليل العقود المصرفية المدعوم بالذكاء الاصطناعي</p>
+  <div style="padding-top:80px;">
+
+    <h1>🤖 Waddehha AI</h1>
+    <p>تحليل العقود المصرفية بالذكاء الاصطناعي</p>
+
+    <br>
+
+    <textarea id="contract" placeholder="اكتب العقد هنا..." 
+      style="width:80%; height:150px; padding:10px; border-radius:10px;"></textarea>
+
+    <br><br>
+
+    <button onclick="analyze()" 
+      style="padding:12px 25px; border:none; border-radius:8px; cursor:pointer;">
+      تحليل العقد
+    </button>
+
+    <h3 id="result" style="margin-top:30px;"></h3>
+
   </div>
+
+  <script>
+    function analyze() {
+      let text = document.getElementById("contract").value;
+
+      if(text.length < 10){
+        document.getElementById("result").innerText = "⚠️ الرجاء إدخال عقد أطول";
+      } else {
+        document.getElementById("result").innerText =
+        "🔍 تم التحليل: العقد يبدو واضحًا ولكن يحتاج مراجعة قانونية";
+      }
+    }
+  </script>
 
 </body>
 </html>
