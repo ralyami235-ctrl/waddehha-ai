@@ -1,384 +1,235 @@
-let currentRiskScore = 0;
-let currentStatus = "";
-let currentSummary = "";
-let currentClauses = [];
-let currentReasons = [];
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
 
+    <meta charset="UTF-8">
 
-function login() {
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    <title>وضّحها AI</title>
 
+    <link rel="stylesheet" href="style.css">
 
-    if(email === "" || password === "") {
+</head>
 
-        alert("فضلاً أدخل البريد الإلكتروني وكلمة المرور");
-        return;
 
-    }
+<body>
 
 
-    document.getElementById("loginPage").classList.add("hidden");
+<div class="container">
 
-    document.getElementById("dashboard").classList.remove("hidden");
 
+    <!-- صفحة تسجيل الدخول -->
 
-    const username = email.split("@")[0];
+    <section id="loginPage" class="card">
 
 
-    document.querySelector("#dashboard h1").innerHTML =
-    "👋 أهلًا " + username;
+        <h1>
+            وضّحها AI
+        </h1>
 
-}
 
+        <p class="subtitle">
+            نظام ذكاء اصطناعي لتحليل العقود
+        </p>
 
 
+        <input
+        type="email"
+        id="email"
+        placeholder="📧 البريد الإلكتروني">
 
-function openAnalyzer() {
 
-    document.getElementById("dashboard").classList.add("hidden");
+        <input
+        type="password"
+        id="password"
+        placeholder="🔒 كلمة المرور">
 
-    document.getElementById("analyzer").classList.remove("hidden");
 
-}
+        <button onclick="login()">
+            تسجيل الدخول
+        </button>
 
 
+        <button class="secondary">
+            إنشاء حساب
+        </button>
 
 
+    </section>
 
-function analyzeContract() {
 
 
-    const contract = document.getElementById("contractText").value.trim();
 
+    <!-- لوحة التحكم -->
 
 
-    if(contract === "") {
+    <section id="dashboard" class="hidden">
 
-        alert("فضلاً الصق نص العقد أولاً");
 
-        return;
+        <h1>
+            👋 أهلًا ريما
+        </h1>
 
-    }
 
+        <div class="dashboard-grid">
 
 
-    let riskScore = 20;
+            <div class="box" onclick="openAnalyzer()">
 
-    let clauses = [];
+                ➕
 
-    let reasons = [];
+                <h3>
+                    تحليل عقد
+                </h3>
 
 
+                <p>
+                    تحليل العقود باستخدام الذكاء الاصطناعي
+                </p>
 
-    let durationMatch = contract.match(/(\d+)\s*(شهر|أشهر|سنة|سنوات)/);
 
+            </div>
+            <div class="box">
 
-    let duration = "غير محددة";
+                📂
 
+                <h3>
+                    عقودي
+                </h3>
 
+                <p>
+                    العقود المحفوظة
+                </p>
 
-    if(durationMatch){
+            </div>
 
-        duration = durationMatch[1] + " " + durationMatch[2];
 
-        clauses.push("مدة العقد: " + duration);
 
-    }
 
+            <div class="box">
 
+                📊
 
-    if(
-        contract.includes("إنهاء") ||
-        contract.includes("فسخ") ||
-        contract.includes("إلغاء")
-    ){
+                <h3>
+                    التقارير السابقة
+                </h3>
 
-        clauses.push("يوجد بند يسمح بإنهاء أو فسخ العقد");
+                <p>
+                    التقارير المنشأة بالذكاء الاصطناعي
+                </p>
 
-        riskScore += 15;
+            </div>
 
-        reasons.push("وجود بند يسمح بإنهاء العقد");
 
-    }
 
 
+            <div class="box">
 
-    if(
-        contract.includes("مسؤولية") ||
-        contract.includes("يتحمل") ||
-        contract.includes("يلتزم")
-    ){
+                👤
 
-        clauses.push("تم العثور على التزامات ومسؤوليات بين الأطراف");
+                <h3>
+                    الملف الشخصي
+                </h3>
 
-        riskScore += 10;
+                <p>
+                    معلومات المستخدم
+                </p>
 
-        reasons.push("تحميل أحد الأطراف مسؤوليات تحتاج إلى توضيح");
+            </div>
 
-    }
 
 
 
-    if(
-        contract.includes("سرية") ||
-        contract.includes("عدم الإفصاح")
-    ){
+            <div class="box">
 
-        clauses.push("يوجد بند خاص بالسرية");
+                ⚙️
 
-    }
-    if(
-        contract.includes("تحكيم") ||
-        contract.includes("نزاع")
-    ){
+                <h3>
+                    الإعدادات
+                </h3>
 
-        clauses.push("يوجد بند لحل النزاعات");
+                <p>
+                    إعدادات النظام
+                </p>
 
-    }
+            </div>
 
 
 
-    if(riskScore > 100){
+        </div>
 
-        riskScore = 100;
 
-    }
+    </section>
 
 
 
-    let status;
 
 
-    if(riskScore >= 60){
+    <!-- محلل العقود -->
 
-        status = "خطورة مرتفعة";
 
-    }
-    else if(riskScore >= 40){
+    <section id="analyzer" class="card hidden">
 
-        status = "خطورة متوسطة";
 
-    }
-    else {
+        <h2>
+            📄 تحليل العقد
+        </h2>
 
-        status = "خطورة منخفضة";
 
-    }
 
+        <textarea
+        id="contractText"
+        placeholder="ألصق نص العقد هنا..."></textarea>
 
 
 
-    if(reasons.length === 0){
 
-        reasons.push("لم يتم اكتشاف مخاطر واضحة");
+        <button onclick="analyzeContract()">
 
-    }
+            تحليل العقد
 
+        </button>
 
 
-    let summary = "عقد ";
 
 
-    if(contract.includes("خدمات")){
+        <div id="result" class="result">
 
-        summary += "خدمات ";
 
-    }
+            <h2>
+                📊 تقرير تحليل العقد
+            </h2>
 
 
 
-    summary += "لمدة " + duration +
-    " بين طرفين، يتضمن التزامات وشروط تحتاج إلى مراجعة قبل التوقيع.";
+            <div id="reportContent">
 
+                سيتم عرض نتيجة التحليل هنا...
 
+            </div>
 
 
-    currentRiskScore = riskScore;
 
-    currentStatus = status;
+        </div>
 
-    currentSummary = summary;
 
-    currentClauses = clauses;
 
-    currentReasons = reasons;
+    </section>
 
 
+</div>
+<!-- مكتبة PDF -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 
-    document.getElementById("result").innerHTML = `
+<!-- ملف الجافاسكربت الخاص بالمشروع -->
 
+<script src="script.js"></script>
 
-    <h3>📄 تقرير تحليل العقد بالذكاء الاصطناعي</h3>
 
+</body>
 
-    <p>
-    📊 درجة الخطورة: ${riskScore}%
-    </p>
-
-
-    <p>
-    ⚠️ الحالة: ${status}
-    </p>
-
-
-
-    <h4>📄 ملخص العقد:</h4>
-
-    <p>
-    ${summary}
-    </p>
-
-
-
-    <h4>🔍 البنود المكتشفة:</h4>
-
-    <ul>
-    ${clauses.map(item => `<li>${item}</li>`).join("")}
-    </ul>
-
-
-
-    <h4>📌 أسباب درجة الخطورة:</h4>
-
-    <ul>
-    ${reasons.map(item => `<li>${item}</li>`).join("")}
-    </ul>
-
-
-
-    <h4>💡 التوصية:</h4>
-
-    <p>
-    يوصى بمراجعة البنود المهمة والتأكد من وضوح مسؤوليات الطرفين قبل التوقيع.
-    </p>
-
-
-
-    <button onclick="downloadPDF()">
-    📥 تحميل التقرير PDF
-    </button>
-
-
-    `;
-
-
-}
-
-function downloadPDF(){
-
-
-    if(!window.jspdf){
-
-        alert("PDF feature is not enabled");
-
-        return;
-
-    }
-
-
-
-    const { jsPDF } = window.jspdf;
-
-
-    const doc = new jsPDF();
-
-
-
-    doc.setFontSize(18);
-
-
-
-    doc.text(
-        "Waddehha AI - Contract Report",
-        20,
-        20
-    );
-
-
-
-    doc.setFontSize(12);
-
-
-
-    let riskText = "Low Risk";
-
-
-    if(currentRiskScore >= 60){
-
-        riskText = "High Risk";
-
-    }
-    else if(currentRiskScore >= 40){
-
-        riskText = "Medium Risk";
-
-    }
-
-
-
-
-    let pdfContent = `
-
-Waddehha AI System
-
-Contract Analysis Report
-
-
-Risk Score: ${currentRiskScore}%
-
-Status: ${riskText}
-
-
-Contract Summary:
-
-Contract analyzed successfully.
-
-
-Detected Clauses:
-
-${currentClauses.length} clauses detected.
-
-
-Risk Factors:
-
-${currentReasons.length} risk factors detected.
-
-
-Recommendation:
-
-Review important contract terms before signing.
-
-
-
-Generated by Waddehha AI System
-
-`;
-
-
-
-    let lines = doc.splitTextToSize(
-        pdfContent,
-        170
-    );
-
-
-
-    doc.text(
-        lines,
-        20,
-        40
-    );
-
-
-
-    doc.save(
-        "Waddehha_AI_Report.pdf"
-    );
-
-
-}
+</html>
