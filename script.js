@@ -21,12 +21,15 @@ function login() {
 
 
 
+
 function openAnalyzer() {
 
     document.getElementById("dashboard").classList.add("hidden");
     document.getElementById("analyzer").classList.remove("hidden");
 
 }
+
+
 
 
 
@@ -51,8 +54,6 @@ function analyzeContract() {
 
 
 
-    // استخراج مدة العقد
-
     let durationMatch = contract.match(/(\d+)\s*(شهر|أشهر|سنة|سنوات)/);
 
 
@@ -69,7 +70,6 @@ function analyzeContract() {
 
 
 
-    // الإنهاء
 
     if(
         contract.includes("إنهاء") ||
@@ -88,8 +88,6 @@ function analyzeContract() {
 
 
 
-    // المسؤوليات
-
     if(
         contract.includes("مسؤولية") ||
         contract.includes("يتحمل") ||
@@ -106,7 +104,6 @@ function analyzeContract() {
 
 
 
-    // السرية
 
     if(
         contract.includes("سرية") ||
@@ -119,8 +116,6 @@ function analyzeContract() {
 
 
 
-
-    // النزاعات
 
     if(
         contract.includes("تحكيم") ||
@@ -139,6 +134,7 @@ function analyzeContract() {
         riskScore = 100;
 
     }
+
 
 
 
@@ -163,6 +159,7 @@ function analyzeContract() {
 
 
 
+
     if(reasons.length === 0){
 
         reasons.push("لم يتم اكتشاف مخاطر واضحة");
@@ -172,8 +169,7 @@ function analyzeContract() {
 
 
 
-    let summary = 
-    "عقد ";
+    let summary = "عقد ";
 
     if(contract.includes("خدمات")){
 
@@ -183,6 +179,7 @@ function analyzeContract() {
 
     summary += "لمدة " + duration +
     " بين طرفين، يتضمن التزامات وشروط تحتاج إلى مراجعة قبل التوقيع.";
+
 
 
 
@@ -201,6 +198,7 @@ function analyzeContract() {
     <p>
     ⚠️ الحالة: ${status}
     </p>
+
 
 
 
@@ -239,21 +237,4 @@ function analyzeContract() {
     "<li>لم يتم العثور على بند سرية.</li>" : ""}
 
     ${!contract.includes("تحكيم") && !contract.includes("نزاع") ? 
-    "<li>لم يتم العثور على بند واضح لحل النزاعات.</li>" : ""}
-
-    </ul>
-
-
-
-
-    <h4>💡 التوصية:</h4>
-
-    <p>
-    يوصى بمراجعة بند الإنهاء وتوضيح مسؤوليات الطرفين وآلية التعامل مع التأخير قبل التوقيع.
-    </p>
-
-
-    `;
-
-
-}
+    "<li>لم يتم العثور على بند واضح لحل النزاعات.</li>"
