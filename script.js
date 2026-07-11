@@ -237,4 +237,60 @@ function analyzeContract() {
     "<li>لم يتم العثور على بند سرية.</li>" : ""}
 
     ${!contract.includes("تحكيم") && !contract.includes("نزاع") ? 
-    "<li>لم يتم العثور على بند واضح لحل النزاعات.</li>"
+    "<li>لم يتم العثور على بند واضح لحل النزاعات.</li>" : ""}
+
+    </ul>
+
+
+
+
+    <h4>💡 التوصية:</h4>
+
+    <p>
+    يوصى بمراجعة بند الإنهاء وتوضيح مسؤوليات الطرفين وآلية التعامل مع التأخير قبل التوقيع.
+    </p>
+
+
+    <button onclick="downloadPDF()">
+    📥 تحميل التقرير PDF
+    </button>
+
+
+    `;
+
+
+}
+
+
+
+
+
+function downloadPDF(){
+
+    if(!window.jspdf){
+
+        alert("ميزة PDF غير مفعلة بعد");
+
+        return;
+
+    }
+
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+
+    const report = document.getElementById("result").innerText;
+
+
+    doc.text("Waddehha AI Contract Report", 20, 20);
+
+    doc.text(report, 20, 40, {
+        maxWidth: 170
+    });
+
+
+    doc.save("Waddehha_AI_Report.pdf");
+
+}
