@@ -30,9 +30,7 @@ function openAnalyzer() {
 
 
 
-
 function analyzeContract() {
-
 
     const contract = document.getElementById("contractText").value.trim();
 
@@ -46,21 +44,18 @@ function analyzeContract() {
 
 
     let riskScore = 20;
-
     let clauses = [];
     let reasons = [];
 
 
-
     let durationMatch = contract.match(/(\d+)\s*(شهر|أشهر|سنة|سنوات)/);
-
 
     let duration = "غير محددة";
 
 
     if(durationMatch){
 
-        duration = durationMatch[1] + " " + duration[2];
+        duration = durationMatch[1] + " " + durationMatch[2];
 
         clauses.push("مدة العقد: " + duration);
 
@@ -111,7 +106,6 @@ function analyzeContract() {
 
 
 
-
     if(
         contract.includes("تحكيم") ||
         contract.includes("نزاع")
@@ -128,10 +122,7 @@ function analyzeContract() {
         riskScore = 100;
 
     }
-
-
-
-    let status;
+        let status;
 
 
     if(riskScore >= 60){
@@ -160,8 +151,8 @@ function analyzeContract() {
 
 
 
-    let summary = 
-    "عقد ";
+    let summary = "عقد ";
+
 
     if(contract.includes("خدمات")){
 
@@ -175,16 +166,14 @@ function analyzeContract() {
 
 
 
+
     document.getElementById("result").innerHTML = `
 
-
     <h3>📄 تقرير تحليل العقد بالذكاء الاصطناعي</h3>
-
 
     <p>
     📊 درجة الخطورة: ${riskScore}%
     </p>
-
 
     <p>
     ⚠️ الحالة: ${status}
@@ -198,13 +187,11 @@ function analyzeContract() {
     </p>
 
 
-
     <h4>🔍 البنود المكتشفة:</h4>
 
     <ul>
     ${clauses.map(item => `<li>${item}</li>`).join("")}
     </ul>
-
 
 
     <h4>📌 أسباب درجة الخطورة:</h4>
@@ -214,19 +201,17 @@ function analyzeContract() {
     </ul>
 
 
-
     <h4>📝 ملاحظات إضافية:</h4>
 
     <ul>
 
-    ${!contract.includes("سرية") ? 
+    ${!contract.includes("سرية") ?
     "<li>لم يتم العثور على بند سرية.</li>" : ""}
 
-    ${!contract.includes("تحكيم") && !contract.includes("نزاع") ? 
+    ${!contract.includes("تحكيم") && !contract.includes("نزاع") ?
     "<li>لم يتم العثور على بند واضح لحل النزاعات.</li>" : ""}
 
     </ul>
-
 
 
     <h4>💡 التوصية:</h4>
@@ -236,5 +221,59 @@ function analyzeContract() {
     </p>
 
 
+    <button onclick="downloadPDF()">
+    📥 تحميل التقرير PDF
+    </button>
 
-    <
+    `;
+
+}
+
+
+
+
+
+function downloadPDF(){
+
+    if(!window.jspdf){
+
+        alert("ميزة PDF غير مفعلة بعد");
+
+        return;
+
+    }
+
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+
+    const report = document.getElementById("result").innerText;
+
+
+    doc.setFontSize(16);
+
+    doc.text(
+        "Waddehha AI - Contract Report",
+        20,
+        20
+    );
+
+
+    doc.setFontSize(12);
+
+
+    const lines = doc.splitTextToSize(report, 170);
+
+
+    doc.text(
+        lines,
+        20,
+        40
+    );
+
+
+    doc.save("Waddehha_AI_Report.pdf");
+
+}
