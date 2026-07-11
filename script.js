@@ -3,22 +3,16 @@ function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-
     if(email === "" || password === "") {
 
         alert("فضلاً أدخل البريد الإلكتروني وكلمة المرور");
-
         return;
     }
 
-
     document.getElementById("loginPage").classList.add("hidden");
-
     document.getElementById("dashboard").classList.remove("hidden");
 
-
     const username = email.split("@")[0];
-
 
     document.querySelector("#dashboard h1").innerHTML =
     "👋 أهلًا " + username;
@@ -27,15 +21,12 @@ function login() {
 
 
 
-
 function openAnalyzer() {
 
     document.getElementById("dashboard").classList.add("hidden");
-
     document.getElementById("analyzer").classList.remove("hidden");
 
 }
-
 
 
 
@@ -48,38 +39,37 @@ function analyzeContract() {
     if(contract === "") {
 
         alert("فضلاً الصق نص العقد أولاً");
-
         return;
 
     }
 
 
-
     let riskScore = 20;
 
     let clauses = [];
-
     let reasons = [];
 
 
 
-    // مدة العقد
+    // استخراج مدة العقد
 
     let durationMatch = contract.match(/(\d+)\s*(شهر|أشهر|سنة|سنوات)/);
 
 
-    if(durationMatch) {
+    let duration = "غير محددة";
 
-        clauses.push(
-            "مدة العقد: " + durationMatch[1] + " " + durationMatch[2]
-        );
+
+    if(durationMatch){
+
+        duration = durationMatch[1] + " " + durationMatch[2];
+
+        clauses.push("مدة العقد: " + duration);
 
     }
 
 
 
-
-    // بند الإنهاء
+    // الإنهاء
 
     if(
         contract.includes("إنهاء") ||
@@ -91,7 +81,7 @@ function analyzeContract() {
 
         riskScore += 15;
 
-        reasons.push("وجود بند إنهاء العقد");
+        reasons.push("وجود بند يسمح بإنهاء العقد");
 
     }
 
@@ -110,10 +100,9 @@ function analyzeContract() {
 
         riskScore += 10;
 
-        reasons.push("وجود مسؤوليات قد تحتاج إلى توضيح");
+        reasons.push("تحميل أحد الأطراف مسؤوليات تحتاج إلى توضيح");
 
     }
-
 
 
 
@@ -127,32 +116,18 @@ function analyzeContract() {
         clauses.push("يوجد بند خاص بالسرية");
 
     }
-    else {
-
-        reasons.push("عدم ظهور بند سرية واضح");
-
-        riskScore += 5;
-
-    }
 
 
 
 
-    // التحكيم
+    // النزاعات
 
     if(
         contract.includes("تحكيم") ||
         contract.includes("نزاع")
     ){
 
-        clauses.push("يوجد بند يوضح آلية حل النزاعات");
-
-    }
-    else {
-
-        reasons.push("عدم وجود آلية واضحة لحل النزاعات");
-
-        riskScore += 5;
+        clauses.push("يوجد بند لحل النزاعات");
 
     }
 
@@ -164,7 +139,6 @@ function analyzeContract() {
         riskScore = 100;
 
     }
-
 
 
 
@@ -189,22 +163,26 @@ function analyzeContract() {
 
 
 
-
-
-    if(clauses.length === 0){
-
-        clauses.push("لم يتم العثور على بنود واضحة، يرجى مراجعة النص");
-
-    }
-
-
-
-
     if(reasons.length === 0){
 
-        reasons.push("لم يتم اكتشاف مخاطر واضحة في العقد");
+        reasons.push("لم يتم اكتشاف مخاطر واضحة");
 
     }
+
+
+
+
+    let summary = 
+    "عقد ";
+
+    if(contract.includes("خدمات")){
+
+        summary += "خدمات ";
+
+    }
+
+    summary += "لمدة " + duration +
+    " بين طرفين، يتضمن التزامات وشروط تحتاج إلى مراجعة قبل التوقيع.";
 
 
 
@@ -226,12 +204,19 @@ function analyzeContract() {
 
 
 
+    <h4>📄 ملخص العقد:</h4>
+
+    <p>
+    ${summary}
+    </p>
+
+
+
+
     <h4>🔍 البنود المكتشفة:</h4>
 
     <ul>
-
     ${clauses.map(item => `<li>${item}</li>`).join("")}
-
     </ul>
 
 
@@ -240,8 +225,21 @@ function analyzeContract() {
     <h4>📌 أسباب درجة الخطورة:</h4>
 
     <ul>
-
     ${reasons.map(item => `<li>${item}</li>`).join("")}
+    </ul>
+
+
+
+
+    <h4>📝 ملاحظات إضافية:</h4>
+
+    <ul>
+
+    ${!contract.includes("سرية") ? 
+    "<li>لم يتم العثور على بند سرية.</li>" : ""}
+
+    ${!contract.includes("تحكيم") && !contract.includes("نزاع") ? 
+    "<li>لم يتم العثور على بند واضح لحل النزاعات.</li>" : ""}
 
     </ul>
 
@@ -251,9 +249,7 @@ function analyzeContract() {
     <h4>💡 التوصية:</h4>
 
     <p>
-
-    يوصى بمراجعة البنود المهمة والتأكد من وضوح مسؤوليات الطرفين وشروط الإنهاء قبل التوقيع.
-
+    يوصى بمراجعة بند الإنهاء وتوضيح مسؤوليات الطرفين وآلية التعامل مع التأخير قبل التوقيع.
     </p>
 
 
