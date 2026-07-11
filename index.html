@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waddehha AI</title>
+    <title>وضّحها AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,42 +12,55 @@
 
 <div class="container">
 
-    <!-- Login Page -->
+
+    <!-- صفحة تسجيل الدخول -->
+
     <section id="loginPage" class="card">
 
-        <h1>وضحّها AI</h1>
+        <h1>وضّحها AI</h1>
 
         <p class="subtitle">
-            Enterprise Contract Intelligence System
+            نظام ذكاء اصطناعي لتحليل العقود
         </p>
+
 
         <input 
         type="email" 
         id="email"
-        placeholder="📧 Email">
+        placeholder="📧 البريد الإلكتروني">
+
 
         <input 
         type="password"
         id="password"
-        placeholder="🔒 Password">
+        placeholder="🔒 كلمة المرور">
+
 
         <button onclick="login()">
-            Login
+            تسجيل الدخول
         </button>
 
+
         <button class="secondary">
-            Create Account
+            إنشاء حساب
         </button>
+
 
     </section>
 
 
-    <!-- Dashboard -->
+
+
+    <!-- لوحة التحكم -->
+
     <section id="dashboard" class="hidden">
 
-        <h1>👋 Welcome Reema</h1>
+
+        <h1>👋 أهلًا ريما</h1>
+
 
         <div class="dashboard-grid">
+
 
 
             <div class="box" onclick="openAnalyzer()">
@@ -55,14 +68,16 @@
                 ➕
 
                 <h3>
-                    Analyze Contract
+                    تحليل عقد
                 </h3>
 
                 <p>
-                    AI contract analysis
+                    تحليل العقود باستخدام الذكاء الاصطناعي
                 </p>
 
             </div>
+
+
 
 
             <div class="box">
@@ -70,14 +85,16 @@
                 📂
 
                 <h3>
-                    My Contracts
+                    عقودي
                 </h3>
 
                 <p>
-                    Saved contracts
+                    العقود المحفوظة
                 </p>
 
             </div>
+
+
 
 
             <div class="box">
@@ -85,14 +102,16 @@
                 📊
 
                 <h3>
-                    Previous Reports
+                    التقارير السابقة
                 </h3>
 
                 <p>
-                    AI generated reports
+                    التقارير المنشأة بالذكاء الاصطناعي
                 </p>
 
             </div>
+
+
 
 
             <div class="box">
@@ -100,14 +119,16 @@
                 👤
 
                 <h3>
-                    Profile
+                    الملف الشخصي
                 </h3>
 
                 <p>
-                    User information
+                    معلومات المستخدم
                 </p>
 
             </div>
+
+
 
 
             <div class="box">
@@ -115,41 +136,50 @@
                 ⚙️
 
                 <h3>
-                    Settings
+                    الإعدادات
                 </h3>
 
                 <p>
-                    System settings
+                    إعدادات النظام
                 </p>
 
             </div>
 
 
+
         </div>
+
 
     </section>
 
 
 
-    <!-- Contract Analyzer -->
+
+
+    <!-- محلل العقود -->
+
 
     <section id="analyzer" class="card hidden">
 
 
         <h2>
-            📄 Analyze Contract
+            📄 تحليل العقد
         </h2>
+
 
 
         <textarea 
         id="contractText"
-        placeholder="Paste your contract here..."></textarea>
+        placeholder="ألصق نص العقد هنا..."></textarea>
+
 
 
 
         <button onclick="analyzeContract()">
-            Analyze Contract
+            تحليل العقد
         </button>
+
+
 
 
 
@@ -157,8 +187,9 @@
 
 
             <h2>
-                📊 AI Contract Report
+                📊 تقرير تحليل العقد
             </h2>
+
 
 
             <div id="reportContent">
@@ -168,18 +199,24 @@
             </div>
 
 
+
         </div>
+
 
 
 
     </section>
 
 
+
 </div>
+
 
 
 
 <script src="script.js"></script>
 
 
-</body
+</body>
+
+</html>
