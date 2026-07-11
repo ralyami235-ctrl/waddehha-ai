@@ -17,7 +17,6 @@ function login() {
     document.getElementById("dashboard").classList.remove("hidden");
 
 
-    // استخراج اسم المستخدم من البريد الإلكتروني
     const username = email.split("@")[0];
 
 
@@ -25,6 +24,7 @@ function login() {
     "👋 أهلًا " + username;
 
 }
+
 
 
 
@@ -38,13 +38,14 @@ function openAnalyzer() {
 
 
 
+
 function analyzeContract() {
 
 
-    const contract = document.getElementById("contractText").value;
+    const contract = document.getElementById("contractText").value.trim();
 
 
-    if(contract.trim() === "") {
+    if(contract === "") {
 
         alert("فضلاً الصق نص العقد أولاً");
 
@@ -53,19 +54,134 @@ function analyzeContract() {
     }
 
 
-    let riskScore = Math.floor(
-        Math.random() * 40 + 30
-    );
+
+    let riskScore = 20;
+
+    let clauses = [];
+
+    let reasons = [];
+
+
+
+    // مدة العقد
+
+    let durationMatch = contract.match(/(\d+)\s*(شهر|أشهر|سنة|سنوات)/);
+
+
+    if(durationMatch) {
+
+        clauses.push(
+            "مدة العقد: " + durationMatch[1] + " " + durationMatch[2]
+        );
+
+    }
+
+
+
+
+    // بند الإنهاء
+
+    if(
+        contract.includes("إنهاء") ||
+        contract.includes("فسخ") ||
+        contract.includes("إلغاء")
+    ){
+
+        clauses.push("يوجد بند يسمح بإنهاء أو فسخ العقد");
+
+        riskScore += 15;
+
+        reasons.push("وجود بند إنهاء العقد");
+
+    }
+
+
+
+
+    // المسؤوليات
+
+    if(
+        contract.includes("مسؤولية") ||
+        contract.includes("يتحمل") ||
+        contract.includes("يلتزم")
+    ){
+
+        clauses.push("تم العثور على التزامات ومسؤوليات بين الأطراف");
+
+        riskScore += 10;
+
+        reasons.push("وجود مسؤوليات قد تحتاج إلى توضيح");
+
+    }
+
+
+
+
+    // السرية
+
+    if(
+        contract.includes("سرية") ||
+        contract.includes("عدم الإفصاح")
+    ){
+
+        clauses.push("يوجد بند خاص بالسرية");
+
+    }
+    else {
+
+        reasons.push("عدم ظهور بند سرية واضح");
+
+        riskScore += 5;
+
+    }
+
+
+
+
+    // التحكيم
+
+    if(
+        contract.includes("تحكيم") ||
+        contract.includes("نزاع")
+    ){
+
+        clauses.push("يوجد بند يوضح آلية حل النزاعات");
+
+    }
+    else {
+
+        reasons.push("عدم وجود آلية واضحة لحل النزاعات");
+
+        riskScore += 5;
+
+    }
+
+
+
+
+    if(riskScore > 100){
+
+        riskScore = 100;
+
+    }
+
+
 
 
     let status;
 
 
-    if(riskScore > 60){
+    if(riskScore >= 60){
 
         status = "خطورة مرتفعة";
 
-    } else {
+    }
+    else if(riskScore >= 40){
+
+        status = "خطورة متوسطة";
+
+    }
+    else {
 
         status = "خطورة منخفضة";
 
@@ -73,27 +189,73 @@ function analyzeContract() {
 
 
 
+
+
+    if(clauses.length === 0){
+
+        clauses.push("لم يتم العثور على بنود واضحة، يرجى مراجعة النص");
+
+    }
+
+
+
+
+    if(reasons.length === 0){
+
+        reasons.push("لم يتم اكتشاف مخاطر واضحة في العقد");
+
+    }
+
+
+
+
     document.getElementById("result").innerHTML = `
 
+
     <h3>📄 تقرير تحليل العقد بالذكاء الاصطناعي</h3>
+
 
     <p>
     📊 درجة الخطورة: ${riskScore}%
     </p>
 
+
     <p>
     ⚠️ الحالة: ${status}
     </p>
 
-    <p>
-    🔍 البنود المكتشفة:
-    تم تحليل شروط العقد بنجاح.
-    </p>
+
+
+    <h4>🔍 البنود المكتشفة:</h4>
+
+    <ul>
+
+    ${clauses.map(item => `<li>${item}</li>`).join("")}
+
+    </ul>
+
+
+
+
+    <h4>📌 أسباب درجة الخطورة:</h4>
+
+    <ul>
+
+    ${reasons.map(item => `<li>${item}</li>`).join("")}
+
+    </ul>
+
+
+
+
+    <h4>💡 التوصية:</h4>
 
     <p>
-    💡 التوصية:
-    يرجى مراجعة البنود المهمة قبل التوقيع.
+
+    يوصى بمراجعة البنود المهمة والتأكد من وضوح مسؤوليات الطرفين وشروط الإنهاء قبل التوقيع.
+
     </p>
+
 
     `;
 
