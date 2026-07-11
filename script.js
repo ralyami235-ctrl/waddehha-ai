@@ -3,9 +3,10 @@ function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
+
     if(email === "" || password === "") {
 
-        alert("Please enter email and password");
+        alert("فضلاً أدخل البريد الإلكتروني وكلمة المرور");
 
         return;
     }
@@ -14,6 +15,14 @@ function login() {
     document.getElementById("loginPage").classList.add("hidden");
 
     document.getElementById("dashboard").classList.remove("hidden");
+
+
+    // استخراج اسم المستخدم من البريد الإلكتروني
+    const username = email.split("@")[0];
+
+
+    document.querySelector("#dashboard h1").innerHTML =
+    "👋 أهلًا " + username;
 
 }
 
@@ -37,7 +46,7 @@ function analyzeContract() {
 
     if(contract.trim() === "") {
 
-        alert("Please paste your contract first");
+        alert("فضلاً الصق نص العقد أولاً");
 
         return;
 
@@ -54,11 +63,11 @@ function analyzeContract() {
 
     if(riskScore > 60){
 
-        status = "High Risk";
+        status = "خطورة مرتفعة";
 
     } else {
 
-        status = "Low Risk";
+        status = "خطورة منخفضة";
 
     }
 
@@ -66,24 +75,24 @@ function analyzeContract() {
 
     document.getElementById("result").innerHTML = `
 
-    <h3>AI Contract Report</h3>
+    <h3>📄 تقرير تحليل العقد بالذكاء الاصطناعي</h3>
 
     <p>
-    📊 Risk Score: ${riskScore}%
+    📊 درجة الخطورة: ${riskScore}%
     </p>
 
     <p>
-    ⚠️ Status: ${status}
+    ⚠️ الحالة: ${status}
     </p>
 
     <p>
-    🔍 Detected Clauses:
-    Contract terms analyzed successfully.
+    🔍 البنود المكتشفة:
+    تم تحليل شروط العقد بنجاح.
     </p>
 
     <p>
-    💡 Recommendation:
-    Review important clauses before signing.
+    💡 التوصية:
+    يرجى مراجعة البنود المهمة قبل التوقيع.
     </p>
 
     `;
