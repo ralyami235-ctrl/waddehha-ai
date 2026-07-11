@@ -21,14 +21,12 @@ function login() {
 
 
 
-
 function openAnalyzer() {
 
     document.getElementById("dashboard").classList.add("hidden");
     document.getElementById("analyzer").classList.remove("hidden");
 
 }
-
 
 
 
@@ -62,12 +60,11 @@ function analyzeContract() {
 
     if(durationMatch){
 
-        duration = durationMatch[1] + " " + durationMatch[2];
+        duration = durationMatch[1] + " " + duration[2];
 
         clauses.push("مدة العقد: " + duration);
 
     }
-
 
 
 
@@ -87,7 +84,6 @@ function analyzeContract() {
 
 
 
-
     if(
         contract.includes("مسؤولية") ||
         contract.includes("يتحمل") ||
@@ -101,7 +97,6 @@ function analyzeContract() {
         reasons.push("تحميل أحد الأطراف مسؤوليات تحتاج إلى توضيح");
 
     }
-
 
 
 
@@ -128,13 +123,11 @@ function analyzeContract() {
 
 
 
-
     if(riskScore > 100){
 
         riskScore = 100;
 
     }
-
 
 
 
@@ -159,7 +152,6 @@ function analyzeContract() {
 
 
 
-
     if(reasons.length === 0){
 
         reasons.push("لم يتم اكتشاف مخاطر واضحة");
@@ -168,8 +160,8 @@ function analyzeContract() {
 
 
 
-
-    let summary = "عقد ";
+    let summary = 
+    "عقد ";
 
     if(contract.includes("خدمات")){
 
@@ -177,10 +169,9 @@ function analyzeContract() {
 
     }
 
+
     summary += "لمدة " + duration +
     " بين طرفين، يتضمن التزامات وشروط تحتاج إلى مراجعة قبل التوقيع.";
-
-
 
 
 
@@ -200,14 +191,11 @@ function analyzeContract() {
     </p>
 
 
-
-
     <h4>📄 ملخص العقد:</h4>
 
     <p>
     ${summary}
     </p>
-
 
 
 
@@ -219,13 +207,11 @@ function analyzeContract() {
 
 
 
-
     <h4>📌 أسباب درجة الخطورة:</h4>
 
     <ul>
     ${reasons.map(item => `<li>${item}</li>`).join("")}
     </ul>
-
 
 
 
@@ -243,7 +229,6 @@ function analyzeContract() {
 
 
 
-
     <h4>💡 التوصية:</h4>
 
     <p>
@@ -251,46 +236,5 @@ function analyzeContract() {
     </p>
 
 
-    <button onclick="downloadPDF()">
-    📥 تحميل التقرير PDF
-    </button>
 
-
-    `;
-
-
-}
-
-
-
-
-
-function downloadPDF(){
-
-    if(!window.jspdf){
-
-        alert("ميزة PDF غير مفعلة بعد");
-
-        return;
-
-    }
-
-
-    const { jsPDF } = window.jspdf;
-
-    const doc = new jsPDF();
-
-
-    const report = document.getElementById("result").innerText;
-
-
-    doc.text("Waddehha AI Contract Report", 20, 20);
-
-    doc.text(report, 20, 40, {
-        maxWidth: 170
-    });
-
-
-    doc.save("Waddehha_AI_Report.pdf");
-
-}
+    <
